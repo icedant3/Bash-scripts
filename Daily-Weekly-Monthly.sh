@@ -19,22 +19,19 @@ check_ret_val() {
   fi
 }
 
-#DAY=`date +%A | tr '[:upper:]' '[:lower:]'`
+
 
 BACKUP_HOST="185.181.230.122"
 BACKUP_PORT="22684"
 BACKUP_USER="backupmivosmart"
 BACKUP_DIRS="/var/log /home"
-#BACKUP_DIRS="/home/smart/sphinx"
-#BACKUP_DIRS="/home/smart/scrimages"
-#DST_PATH="/backup/`hostname`/test"
+
 
 DST_PATH_DAILY="/backup/$(hostname)/daily"
 DST_PATH_MONTHLY="/backup/$(hostname)/monthly"
 DST_PATH_MONTHLY16="/backup/$(hostname)/monthly16"
 
 today=$(date +%d-%m-%Y)
-#today=$(date +%d-%m-%Y --date="-2 day")
 firstday=$(date +01-%m-%Y)
 day16=$(date +16-%m-%Y)
 
@@ -52,18 +49,9 @@ LAST_MONTH_16=$(date -d "$THIS_MONTH_16 -1 month" '+%d-%m-%Y')
 THIS_MONTH_START=$(date -d "$TODAY" '+%Y-%m-01')
 LAST_MONTH_START=$(date -d "$THIS_MONTH_START -1 month" '+%d-%m-%Y')
 
-#month1=`date +01-%m-%Y --date"-1 month"`
-# RSYNC_OPTS="-avxAHSX --delete --numeric-ids --bwlimit=12m"
-#RSYNC_OPTS="-aqxAHSX --delete --delete-excluded --numeric-ids"
+
 RSYNC_OPTS="-aqxAHSX --delete --delete-excluded --numeric-ids --exclude cache/*"
-#%d-%m-%Y
-#if [ $DAY != "monday" ]
-#then
-#  RSYNC_OPTS="$RSYNC_OPTS --backup --backup-dir=$DST_PATH/$DAY"
-# ssh -p $BACKUP_PORT $BACKUP_USER@$BACKUP_HOST "rm -rf $DST_PATH/$DAY"
-#fi
-#------------------------------------------------------------------------------------------------
-#echo $LAST_MONTH_START;
+
 
 #Creating a backup
 
@@ -136,39 +124,3 @@ else
 fi
 
 fi
-#Delete monthly backup
-#if [ $today = $firstday ]; #if today is the first day of the month
-#then
-#  if ssh -p $BACKUP_PORT $BACKUP_USER@$BACKUP_HOST "[ -d $DST_PATH_MONTHLY/$today ]" ; #if there is today's backup
-#  then #delete the old backup on the first day of the first month
-#    ssh -p $BACKUP_PORT $BACKUP_USER@$BACKUP_HOST "rm -rf $DST_PATH_MONTHLY/$LAST_MONTH_START"
-#    echo 'delete DST_PATH_MONTHLY';
-#    echo $LAST_MONTH_START;
-#  fi
-#fi
-
-#Delete daily backup
-#if [ $today != $firstday ]
-#then
-#  if ssh -p $BACKUP_PORT $BACKUP_USER@$BACKUP_HOST "[ -d $DST_PATH_DAILY/$today ]"; #if there is today's backup
-#    then #delete old backup 3 days ago
-#      ssh -p $BACKUP_PORT $BACKUP_USER@$BACKUP_HOST "rm -rf $DST_PATH_DAILY/$day3"
-#      echo "delete $day3";
-#  fi
-#fi
-
-#ssh -p $BACKUP_PORT $BACKUP_USER@$BACKUP_HOST "rm -rf DST_PATH_daily/$day4"
-#ssh -p $BACKUP_PORT $BACKUP_USER@$BACKUP_HOST  "for i in $DST_PATH* ; do echo \{$i} ; done"
-
-#------------------------------------------------------------------------------------------------
-
-#log_info "Starting the backup process"
-
-#log_info "Creating the destination backup directories"
-#ssh -p $BACKUP_PORT $BACKUP_USER@$BACKUP_HOST "mkdir -p $DST_PATH/$today"
-
-#log_info "Starting rsync"
-#/usr/bin/rsync $RSYNC_OPTS -e "ssh -p $BACKUP_PORT" $BACKUP_DIRS $BACKUP_USER@$BACKUP_HOST:$DST_PATH/$today
-#log_info "Error running rsync"
-
-#log_info "Backup completed"
