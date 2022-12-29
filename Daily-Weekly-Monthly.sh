@@ -21,9 +21,9 @@ check_ret_val() {
 
 
 
-BACKUP_HOST="185.181.230.122"
-BACKUP_PORT="22684"
-BACKUP_USER="backupmivosmart"
+BACKUP_HOST="IP address"
+BACKUP_PORT=""
+BACKUP_USER="user"
 BACKUP_DIRS="/var/log /home"
 
 
